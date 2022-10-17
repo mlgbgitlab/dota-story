@@ -1,0 +1,342 @@
+@charset "utf-8";
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  /*background: transparent;*/
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+fieldset,
+img {
+  border: 0;
+}
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+ol,
+ul {
+  list-style: none;
+}
+caption,
+th {
+  text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 200%;
+  font-weight: normal;
+}
+:focus {
+  outline: 0;
+}
+a {
+  text-decoration: none;
+}
+a:hover img {
+  border: none;
+}
+/*清除浮动*/
+.clearfix:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.clearfix {
+  display: inline-block;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {
+  height: 1%;
+}
+.clearfix {
+  display: block;
+}
+/* End hide from IE-mac */
+/* 通用样式 start */
+/* 超出一行显示省略号 */
+.oneEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 超出两行显示省略号 */
+.twoEllipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+/* 超出三行显示省略号 */
+.threeEllipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+/* 通用样式 end */
+
+html {
+  background: #ffffff;
+  font-family: 'Microsoft YaHei';
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* 图片底部留白问题 */
+img[data-src] {
+  filter: blur(0.2em);
+}
+
+img {
+  vertical-align: middle;
+  filter: blur(0em);
+  transition: filter 0.5s;
+}
+
+/* 新闻中心详情页  start */
+.audio-tips {
+  position: absolute;
+  top: 0;
+  left: 2.4rem;
+  height: 1.1rem;
+  line-height: 1.1rem;
+  font-size: .28rem;
+  color: #005acf;
+}
+.audio-cartoon {
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  left: 1.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.audio-icon {
+  display: flex;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: url('../images/volume.svg') no-repeat center center;
+  background-size: 0.48rem 0.48rem;
+}
+/* 动画针 */
+@keyframes toLeftMove {
+  0% {
+    left: 0;
+  }
+  80% {
+    left: -4.8rem;
+  }
+  100% {
+    left: -4.6rem;
+  }
+}
+@keyframes toRightMove {
+  0% {
+    left: -4.6rem;
+  }
+  80% {
+    left: 0.1rem;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+/* 音频控件 start */
+.audio-box {
+  padding: 0;
+  width: 5rem;
+  height: 0.8rem;
+  background-image: linear-gradient(to right, #005acf, #74a8ff);
+  display: none;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  bottom: 1.4rem;
+  z-index: 999;
+  border-radius: 0 0.1rem 0.1rem 0;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.3);
+  animation: toRightMove 1s;
+}
+
+.audio-pos {
+  left: -4.6rem;
+  animation: toLeftMove 1s;
+}
+
+.caption-reveal {
+  padding: 0 0.16rem;
+  width: 3rem;
+  flex: 1;
+}
+
+.audio-title {
+  font-size: 0.24rem;
+  color: #fff;
+  width: 100%;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.audio-title span {
+  padding-right: 0.36rem;
+}
+
+.audio-time {
+  width: 100%;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  font-size: 0.24rem;
+  color: #ddd;
+}
+
+.current {
+  color: #fff;
+}
+
+.audio-btn {
+  display: flex;
+}
+
+.play-suspend,
+.show-off {
+  margin: 0.1rem 0 0 0.1rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: url('../images/play.svg') no-repeat center center;
+  background-size: 0.3rem 0.3rem;
+}
+
+.show-off {
+  background-image: url('../images/close.svg');
+  background-size: 0.4rem 0.4rem;
+}
+
+.play-suspend.pause {
+  background-image: url('../images/pause.svg');
+}
+
+.audio-open {
+  display: none;
+  width: 0.4rem;
+  height: 0.8rem;
+  background: url('../images/unpack.svg') no-repeat center center;
+  background-size: 0.28rem 0.38rem;
+}
+/* 音频控件 end */
+
+/* 动画 start */
+.canvas {
+  width: 0.48rem;
+  height: 0.48rem;
+  position: relative;
+  top: 0.31rem;
+  left: 0.31rem;
+  overflow: hidden;
+  display: none;
+}
+
+.strip {
+  width: 0.08rem;
+  height: 0.48rem;
+  background-color: #005acf;
+  position: absolute;
+  bottom: 0;
+  left: 0.04rem;
+}
+
+.strip2 {
+  left: 0.2rem;
+}
+
+.strip3 {
+  left: 0.36rem;
+}
+/* 动画 end */
