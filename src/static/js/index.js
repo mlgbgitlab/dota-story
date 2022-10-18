@@ -18,7 +18,7 @@ $.extend({
   },
 })
 
-var jsAudio = new (function (that) {
+window.jsAudio = new (function (that) {
   that = this
 
   that.audio = null // 音频对象

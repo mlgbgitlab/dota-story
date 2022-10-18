@@ -119,10 +119,22 @@
       }
 
     })(window, window['lib'] || (window['lib'] = {}));
+
+    let source = null;
+    if (window.EventSource) {
+      // 建立连接
+      source = new EventSource("/dota-story/connect");
+      source.addEventListener('message', function (e) {
+        rotateCircle(e.data);
+      });
+
+    } else {
+      console.log("你的浏览器不支持SSE");
+    };
     function button_onclick(){
       var story= $("#story").val();
       $.ajax({
-        url: "/send/story",//要请求的服务器url
+        url: "/dota-story/send/story",//要请求的服务器url
         data: {story: story},
         async: true,//是否是异步请求
         cache: false,//是否缓存结果
@@ -136,8 +148,20 @@
 
         }
     });
-      document.getElementById("audioCanvas").click();
-      alert("发送成功");
+
+      if (!this.jsAudio.whetherPlay) {
+        document.getElementById("audioCanvas").click();
+      }
+      var t = document.getElementById('percent');//选取id为test的div元素
+      $.get("/dota-story/process",{},function (res){
+        console.log("请求成功");
+      });
+    };
+
+
+    function rotateCircle(persent) {
+      var value = persent.toString().split(",");
+      console.log("服务器响应参数："+value);
     }
   </script>
 </head>
@@ -145,6 +169,7 @@
 
 <div class="showcase">
   <div class="video-container">
+    <div id="percent"></div>
     <!--<video src="../src/static/video/video.mov" autoplay="" muted="" loop=""></video>-->
   </div>
   <div class="content">
