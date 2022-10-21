@@ -162,7 +162,7 @@
     let source = null;
     if (window.EventSource) {
       // 建立连接
-      source = new EventSource("/dota-story/connect");
+      source = new EventSource("/dotastory/connect");
       source.addEventListener('message', function (e) {
         rotateCircle(e.data);
       });
@@ -173,7 +173,7 @@
     function button_onclick(){
       var story= $("#story").val();
       $.ajax({
-        url: "/dota-story/send/story",//要请求的服务器url
+        url: "/dotastory/send/story",//要请求的服务器url
         data: {story: story},
         async: true,//是否是异步请求
         cache: false,//是否缓存结果
@@ -191,10 +191,7 @@
       if (!this.jsAudio.whetherPlay) {
         document.getElementById("audioCanvas").click();
       }
-      var t = document.getElementById('percent');//选取id为test的div元素
-      $.get("/dota-story/process",{},function (res){
-        console.log("请求成功");
-      });
+
     };
 
 
@@ -206,9 +203,9 @@
 </head>
 <body>
 
-<div class="showcase">
+<div class="showcase" id="box">
   <div class="video-container">
-    <div id="percent"></div>
+
     <!--<video src="../src/static/video/video.mov" autoplay="" muted="" loop=""></video>-->
   </div>
   <div class="content" style="padding-top: 200px;height: 400px">
