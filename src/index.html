@@ -7,14 +7,15 @@
   <link rel="stylesheet" href="static/css/style.css">
   <link rel="stylesheet" type="text/css" href="static/css/index.css">
   <style>
-    .wrapper{
-  /*   background: #252854;*/
+    .wrapper {
+      /*   background: #252854;*/
       width: 100%;
-    /*  height:500px;*/
+      /*  height:500px;*/
       border-radius: 5px;
-     /* position: relative;*/
+      /* position: relative;*/
     }
-    .text{
+
+    .text {
       flex: 0 0 100%;
       font-size: 1rem;
       font-weight: 900;
@@ -32,12 +33,12 @@
       -webkit-background-clip: text;
     }
 
-    .text:after{
+    .text:after {
       content: attr(data-text);
       -webkit-text-stroke: 1.5px #d4d7ff;
-/*      position: absolute;
-      left: 50%;
-      top: 50%;*/
+      /*      position: absolute;
+            left: 50%;
+            top: 50%;*/
       transform: translate(-50%, -49%);
       background: url(../src/static/images/source.gif);
       background-clip: text;
@@ -109,6 +110,7 @@
           doc.write(wrap.innerHTML);
         }
       }
+
       function refreshRem() {
         var width = docEl.getBoundingClientRect().width;
         if (width / dpr > 750) {
@@ -169,9 +171,17 @@
 
     } else {
       console.log("你的浏览器不支持SSE");
-    };
-    function button_onclick(){
-      var story= $("#story").val();
+    }
+    ;
+
+    function x(str) {
+
+      return document.getElementById(str);
+
+    }
+
+    function button_onclick() {
+      var story = $("#story").val();
       $.ajax({
         url: "/dotastory/send/story",//要请求的服务器url
         data: {story: story},
@@ -180,13 +190,11 @@
         type: "POST",//请求方式
         dataType: "text",//服务器返回什么类型数据 text xml javascript json(javascript对象)
         success: function (result) {//函数会在服务器执行成功后执行，result就是服务器返回结果
-          console.log(result);
-          //返回的内容
         },
         error: function (jqXHR, textStatus, errorThrown) {
 
         }
-    });
+      });
 
       if (!this.jsAudio.whetherPlay) {
         document.getElementById("audioCanvas").click();
@@ -194,10 +202,53 @@
 
     };
 
+    function move() {
+      var spanArray = x('box').children;
+      if(spanArray.length>2) {
+        for (var i = 2; i < spanArray.length; i++) {
+          spanArray[i].style.left = parseInt(spanArray[i].style.left) - spanArray[i].speed + 'px';
+        }
+        setInterval(automove, 500);
+      }
+    }
+
+    function automove() {
+      var spanArray = x('box').children;
+      if(spanArray.length>2) {
+        for (var i = 2; i < spanArray.length; i++) {
+          spanArray[i].style.left = parseInt(spanArray[i].style.left) - spanArray[i].speed + 'px';
+        }
+        var index = spanArray[2].style.left.replace(/[^\d|^\.|^\-]/g, '');
+        if (parseInt(index) <= 0) {
+          x('box').removeChild(spanArray[2]);
+        }
+      }
+    }
 
     function rotateCircle(persent) {
       var value = persent.toString().split(",");
-      console.log("服务器响应参数："+value);
+      console.log("服务器响应参数：" + value);
+      //返回的内容
+      var word = value;
+      var span = document.createElement('span');
+      var top = parseInt(Math.random() * 500) - 20;
+      var color1 = parseInt(Math.random() * 256);
+      var color2 = parseInt(Math.random() * 256);
+      var color3 = parseInt(Math.random() * 256);
+      var color = "rgb(" + color1 + "," + color2 + "," + color3 + ")";
+      top = top < 0 ? 0 : top;
+      span.style.position = 'absolute';
+      span.style.top = top + "px";
+      span.style.color = color;
+      span.style.fontSize = 24 + "px";
+      span.style.left = '1024px';
+      span.style.whiteSpace = 'nowrap';
+      var nub = (Math.random() * 10) + 1;
+      span.setAttribute('speed', nub);
+      span.speed = nub;
+      span.innerHTML = word;
+      x('box').appendChild(span);
+      move();
     }
   </script>
 </head>
@@ -209,53 +260,59 @@
     <!--<video src="../src/static/video/video.mov" autoplay="" muted="" loop=""></video>-->
   </div>
   <div class="content" style="padding-top: 200px;height: 400px">
-    <div class= "wrapper">
-      <div class= "text" data-text= "JUST DOTA IT"></div>
+    <div class="wrapper">
+      <div class="text" data-text="JUST DOTA IT"></div>
       <div>
-    <!--<h1 style="font-size:50px;opacity: 0.5;">JUST DOTA IT</h1>-->
-    <h3 style="font-size:50px;opacity: 0.5;">What's Your Story</h3>
-    <h4 style="">
-      <div style="padding-left: 20%">
-      <textarea value="" id="story" maxlength="25" name="story" style="float:left;outline-style:none;border:1px solid #ccc;border-radius:3px;width: 200px; height: 40px; ​padding:7px 0px;​background-color: #fff;opacity:0.5;" placeholder="发个弹幕呗~" class="chat-input border-box"></textarea>
-        <button onclick="javascript:button_onclick();" type="submit" style="float: left;height:40px;width:40px;​background-color: #fff;opacity:0.5;">发送</button>
-      <!-- <input name="story" value="" style="outline-style:none;border:1px solid #ccc;border-radius:3px;height:25px; ​padding:7px 0px;​background-color: #fff;opacity:0.5;"/>-->
+        <!--<h1 style="font-size:50px;opacity: 0.5;">JUST DOTA IT</h1>-->
+        <h3 style="font-size:50px;opacity: 0.5;">What's Your Story</h3>
+        <h4 style="">
+          <div style="padding-left: 20%">
+            <textarea value="" id="story" maxlength="25" name="story"
+                      style="float:left;outline-style:none;border:1px solid #ccc;border-radius:3px;width: 200px; height: 40px; ​padding:7px 0px;​background-color: #fff;opacity:0.5;"
+                      placeholder="发个弹幕呗~" class="chat-input border-box"></textarea>
+            <button onclick="javascript:button_onclick();" type="submit"
+                    style="float: left;height:40px;width:40px;​background-color: #fff;opacity:0.5;">发送
+            </button>
+            <!-- <input name="story" value="" style="outline-style:none;border:1px solid #ccc;border-radius:3px;height:25px; ​padding:7px 0px;​background-color: #fff;opacity:0.5;"/>-->
+          </div>
+        </h4>
       </div>
-    </h4>
-  </div>
-</div>
-<div class="container">
-  <!-- 音频播放按钮 -->
-  <div class="audio-cartoon" id="audioCartoon">
-    <i class="audio-icon" id="audioIcon"></i>
-    <div class="canvas" id="audioCanvas">
-      <p class="strip strip1"></p>
-      <p class="strip strip2"></p>
-      <p class="strip strip3"></p>
     </div>
-  </div>
-  <!-- 音频组件 -->
-  <div class="audio-box">
-    <!-- 标题和进度 -->
-    <div class="caption-reveal">
-      <div class="audio-title">
-        <span class="title"></span>
-        <span class="title2"></span>
+    <div class="container">
+      <!-- 音频播放按钮 -->
+      <div class="audio-cartoon" id="audioCartoon">
+        <i class="audio-icon" id="audioIcon"></i>
+        <div class="canvas" id="audioCanvas">
+          <p class="strip strip1"></p>
+          <p class="strip strip2"></p>
+          <p class="strip strip3"></p>
+        </div>
       </div>
-      <p class="audio-time">
-        <span class="current"></span>&nbsp;/&nbsp;<span class="duration"></span>
-      </p>
+      <!-- 音频组件 -->
+      <div class="audio-box">
+        <!-- 标题和进度 -->
+        <div class="caption-reveal">
+          <div class="audio-title">
+            <span class="title"></span>
+            <span class="title2"></span>
+          </div>
+          <p class="audio-time">
+            <span class="current"></span>&nbsp;/&nbsp;<span class="duration"></span>
+          </p>
+        </div>
+        <div class="audio-btn">
+          <!-- 播放/暂停 -->
+          <p class="play-suspend"></p>
+          <!-- 关闭/展示 -->
+          <p class="show-off"></p>
+        </div>
+        <a href="javascript:;" class="audio-open"></a>
+      </div>
+
     </div>
-    <div class="audio-btn">
-      <!-- 播放/暂停 -->
-      <p class="play-suspend"></p>
-      <!-- 关闭/展示 -->
-      <p class="show-off"></p>
-    </div>
-    <a href="javascript:;" class="audio-open"></a>
-  </div>
-</div>
-<script src="static/js/jquery-3.1.1.min.js"></script>
-<script src="static/js/index.js"></script>
+    <script src="static/js/jquery-3.1.1.min.js"></script>
+    <script src="static/js/index.js"></script>
+
 </body>
 
 </html>
