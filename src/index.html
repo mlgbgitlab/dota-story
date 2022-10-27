@@ -48,6 +48,7 @@
   </style>
   <script type="text/javascript">
     // rem适配，pc 1:100, 移动端：1:50
+    var userid = ''
     ;(function (win, lib) {
       var doc = win.document;
       var docEl = doc.documentElement;
@@ -168,23 +169,20 @@
       source.addEventListener('message', function (e) {
         rotateCircle(e.data);
       });
-
     } else {
       console.log("你的浏览器不支持SSE");
     }
     ;
 
-    function x(str) {
-
+    function barrageMessageBox(str) {
       return document.getElementById(str);
-
     }
 
     function button_onclick() {
       var story = $("#story").val();
       $.ajax({
         url: "/dotastory/send/story",//要请求的服务器url
-        data: {story: story},
+        data: {story: story, userId: userid.toString()},
         async: true,//是否是异步请求
         cache: false,//是否缓存结果
         type: "POST",//请求方式
@@ -203,31 +201,37 @@
     };
 
     function move() {
-      var spanArray = x('box').children;
-      if(spanArray.length>2) {
-        for (var i = 2; i < spanArray.length; i++) {
-          spanArray[i].style.left = parseInt(spanArray[i].style.left) - spanArray[i].speed + 'px';
-        }
-        setInterval(automove, 500);
+      var spanArray = barrageMessageBox('box').children;
+      var times=500;
+      if(spanArray.length>10){
+        times= 100*spanArray.length;
       }
+       setTimeout(automove,times );
     }
 
+
     function automove() {
-      var spanArray = x('box').children;
-      if(spanArray.length>2) {
+      var spanArray = barrageMessageBox('box').children;
+      if (spanArray.length > 2) {
+        console.log(spanArray.length);
         for (var i = 2; i < spanArray.length; i++) {
-          spanArray[i].style.left = parseInt(spanArray[i].style.left) - spanArray[i].speed + 'px';
+          spanArray[i].style.left = parseInt(spanArray[i].style.left) -  spanArray[i].speed + 'px';
         }
         var index = spanArray[2].style.left.replace(/[^\d|^\.|^\-]/g, '');
         if (parseInt(index) <= 0) {
-          x('box').removeChild(spanArray[2]);
+          barrageMessageBox('box').removeChild(spanArray[2]);
         }
+        move();
       }
     }
 
     function rotateCircle(persent) {
       var value = persent.toString().split(",");
-      console.log("服务器响应参数：" + value);
+      console.log("连接服务器响应参数：" + value);
+      if (userid == '') {
+        userid = value;
+        return;
+      }
       //返回的内容
       var word = value;
       var span = document.createElement('span');
@@ -241,13 +245,14 @@
       span.style.top = top + "px";
       span.style.color = color;
       span.style.fontSize = 24 + "px";
-      span.style.left = '1024px';
+      span.style.left = '1600px';
       span.style.whiteSpace = 'nowrap';
-      var nub = (Math.random() * 10) + 1;
+      span.style.textShadow = '0 0 5px #FFFFFF,0 0 15px #FFFFFF,0 0 25px #FFFFFF';
+      var nub = (Math.random() * 10) + 1;;
       span.setAttribute('speed', nub);
       span.speed = nub;
       span.innerHTML = word;
-      x('box').appendChild(span);
+      barrageMessageBox('box').appendChild(span);
       move();
     }
   </script>
