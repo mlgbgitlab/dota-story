@@ -174,6 +174,23 @@
     }
     ;
 
+    function getSessionId() {
+      var c_name = 'JSESSIONID';
+      if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=")
+        if (c_start != -1) {
+          c_start = c_start + c_name.length + 1
+          c_end = document.cookie.indexOf(";", c_start)
+          if (c_end == -1) c_end = document.cookie.length
+          return unescape(document.cookie.substring(c_start, c_end));
+        }
+      } else {
+        var JSESSIONID = $("#mySession").val();
+        return JSESSIONID;
+      }
+    }
+
+
     function barrageMessageBox(str) {
       return document.getElementById(str);
     }
@@ -228,7 +245,9 @@
     function rotateCircle(persent) {
       var value = persent.toString().split(",");
       console.log("连接服务器响应参数：" + value);
-      if (userid == '') {
+      var sessionId = getSessionId();
+      console.log("sessionID:"+sessionId);
+      if (userid == ''&&!!sessionId) {
         userid = value;
         return;
       }
@@ -258,7 +277,7 @@
   </script>
 </head>
 <body>
-
+<input type="hidden" id="sessionId" />
 <div class="showcase" id="box">
   <div class="video-container">
 
