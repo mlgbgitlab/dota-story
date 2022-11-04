@@ -163,10 +163,16 @@
     })(window, window['lib'] || (window['lib'] = {}));
 
     let source = null;
+    let isuser=false;
     if (window.EventSource) {
       // 建立连接
       source = new EventSource("/dotastory/connect");
       source.addEventListener('message', function (e) {
+        if (!isuser) {
+          userid = e.data.toString().split(",");
+          isuser=true;
+          return;
+        }
         rotateCircle(e.data);
       });
     } else {
@@ -247,10 +253,6 @@
       console.log("连接服务器响应参数：" + value);
       var sessionId = getSessionId();
       console.log("sessionID:"+sessionId);
-      if (userid == '') {
-        userid = value;
-        return;
-      }
       //返回的内容
       var word = value;
       var span = document.createElement('span');
